@@ -1,6 +1,7 @@
 import "./config.js"; // This will import dotenv and run the config function
 import express from "express";
 import logEndPoints from "./utils/logEndpoints.js";
+import fs from "node:fs";
 
 const port = process.env.PORT;
 const app = express();
