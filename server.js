@@ -22,25 +22,19 @@ app.get("/", (req, res) => {
   res.send("Hello!");
 });
 
-app.post(
-  "/signup",
-  (req, res, next) => {
-    console.log("req.body:", req.body);
-    if (!req.body.username || !req.body.password) {
-      res.status(400).json({ message: "Username and password are required!" });
-      return;
-    }
-    next();
-    // break!
-  },
-  (req, res) => {
-    res.json({ message: "User registered successfully!", user: req.body });
+function authentication(req, res, next) {
+  if (!req.body.username || !req.body.password) {
+    res.status(400).json({ message: "Username and password are required!" });
+    return;
   }
-);
+  next();
+}
+
+app.post("/signup", authentication, (req, res) => {
+  res.json({ message: "User registered successfully!", user: req.body });
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port} \n`);
   logEndPoints(app, port);
 });
-
-
