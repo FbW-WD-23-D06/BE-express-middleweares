@@ -2,6 +2,7 @@ import "./config.js"; // This will import dotenv and run the config function
 import express from "express";
 import logEndPoints from "./utils/logEndpoints.js";
 import { authentication } from "./middleweares/authentication.js";
+import { login } from "./middleweares/login.js";
 
 const port = process.env.PORT;
 const app = express();
@@ -25,6 +26,11 @@ app.get("/", (req, res) => {
 
 app.post("/signup", authentication, (req, res) => {
   res.json({ message: "User registered successfully!", user: req.body });
+});
+
+app.post("/login", login, (req, res) => {
+  console.log("login post request");
+  res.json({ message: "login completed" });
 });
 
 app.listen(port, () => {
