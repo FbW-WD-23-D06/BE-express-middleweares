@@ -1,6 +1,7 @@
 import "./config.js"; // This will import dotenv and run the config function
 import express from "express";
 import logEndPoints from "./utils/logEndpoints.js";
+import { authentication } from "./middleweares/authentication.js";
 
 const port = process.env.PORT;
 const app = express();
@@ -21,14 +22,6 @@ app.get("/", (req, res) => {
   console.log("request received at /");
   res.send("Hello!");
 });
-
-function authentication(req, res, next) {
-  if (!req.body.username || !req.body.password) {
-    res.status(400).json({ message: "Username and password are required!" });
-    return;
-  }
-  next();
-}
 
 app.post("/signup", authentication, (req, res) => {
   res.json({ message: "User registered successfully!", user: req.body });
